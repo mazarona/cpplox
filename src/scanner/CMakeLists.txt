@@ -8,5 +8,5 @@ add_library(scanner STATIC scanner.cpp)
 # we put INTERFACE.
 target_include_directories(scanner INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")
 
-target_link_libraries(scanner PUBLIC cpplox_compile_flags)
+target_link_libraries(scanner PUBLIC cpplox_compile_flags PRIVATE token)
 
