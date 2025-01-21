@@ -1,9 +1,11 @@
 add_executable(cpplox cpplox.cpp)
 
 add_subdirectory(scanner)
+add_subdirectory(token)
+add_subdirectory(error)
 
 add_library(cpplox_dep INTERFACE)
-target_link_libraries(cpplox_dep INTERFACE scanner)
+target_link_libraries(cpplox_dep INTERFACE scanner token error)
 
 # cpplox is the final executalbe nothing will link against it
 # so there is no need for PUBLIC. make it PRIVATE
