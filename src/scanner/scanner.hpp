@@ -1,19 +1,20 @@
 #ifndef SCANNER_H
 #define SCANNER_H
 
-#include "token.hpp"
 #include <map>
 #include <string>
 #include <vector>
 
+#include "token.hpp"
+
 namespace cpplox {
 namespace scanner {
 class Scanner {
-public:
+ public:
   Scanner(const std::string &source);
   std::vector<cpplox::token::Token> scanTokens();
 
-private:
+ private:
   std::vector<cpplox::token::Token> tokens;
   // Add a new token of type tokenType.
   void addToken(token::TokenType tokenType);
@@ -72,7 +73,7 @@ private:
       {"while", cpplox::token::TokenType::WHILE},
   };
 };
-} // namespace scanner
-} // namespace cpplox
+}  // namespace scanner
+}  // namespace cpplox
 
-#endif // SCANNER_H
+#endif  // SCANNER_H

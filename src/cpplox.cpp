@@ -1,11 +1,12 @@
-#include "error.hpp"
-#include "scanner.hpp"
-#include "token.hpp"
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
+
+#include "error.hpp"
+#include "scanner.hpp"
+#include "token.hpp"
 
 std::string readFile(const std::string &path) {
   std::string source;
@@ -34,16 +35,14 @@ void run(const std::string &source) {
 void runFile(const std::string &path) {
   std::string source = readFile(path);
   run(source);
-  if (cpplox::error::hadError)
-    std::exit(65);
+  if (cpplox::error::hadError) std::exit(65);
 }
 
 void runPrompt() {
   for (;;) {
     std::cout << "> ";
     std::string line;
-    if (!getline(std::cin, line))
-      break;
+    if (!getline(std::cin, line)) break;
     run(line);
     // don't exit if he mistypes when the interpreter runs
     // interactively

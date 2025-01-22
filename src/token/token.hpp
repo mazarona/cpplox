@@ -57,11 +57,11 @@ enum class TokenType {
 };
 
 class Token {
-public:
+ public:
   Token(TokenType type, std::string lexeme, std::any literal, int line);
   std::string toString();
 
-private:
+ private:
   // the type of the token according to lox.
   TokenType m_tokenType;
   // the sequence of characters that represent the token.
@@ -73,7 +73,7 @@ private:
   int m_line;
 };
 
-} // namespace token
-} // namespace cpplox
+}  // namespace token
+}  // namespace cpplox
 
-#endif // TOKEN_H
+#endif  // TOKEN_H

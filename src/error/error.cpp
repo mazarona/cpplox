@@ -1,4 +1,5 @@
 #include "error.hpp"
+
 #include <iostream>
 
 namespace cpplox {
@@ -14,5 +15,5 @@ static void report(int line, const std::string &where,
 
 void error(int line, const std::string &message) { report(line, "", message); }
 
-} // namespace error
-} // namespace cpplox
+}  // namespace error
+}  // namespace cpplox

@@ -1,7 +1,10 @@
+
 #include "scanner.hpp"
+
+#include <string>
+
 #include "error.hpp"
 #include "token.hpp"
-#include <string>
 
 namespace cpplox {
 namespace scanner {
@@ -22,91 +25,89 @@ std::vector<cpplox::token::Token> Scanner::scanTokens() {
 void Scanner::scanToken() {
   char c = advance();
   switch (c) {
-  // single character lexemes.
-  case '(':
-    addToken(token::TokenType::LEFT_PAREN);
-    break;
-  case ')':
-    addToken(token::TokenType::RIGHT_PAREN);
-    break;
-  case '{':
-    addToken(token::TokenType::LEFT_BRACE);
-    break;
-  case '}':
-    addToken(token::TokenType::RIGHT_BRACE);
-    break;
-  case ',':
-    addToken(token::TokenType::COMMA);
-    break;
-  case '.':
-    addToken(token::TokenType::DOT);
-    break;
-  case '-':
-    addToken(token::TokenType::MINUS);
-    break;
-  case '+':
-    addToken(token::TokenType::PLUS);
-    break;
-  case ';':
-    addToken(token::TokenType::SEMICOLON);
-    break;
-  case '*':
-    addToken(token::TokenType::STAR);
-    break;
-  // double character lexemes
-  case '!':
-    addToken(match('=') ? token::TokenType::BANG_EQUAL
-                        : token::TokenType::BANG);
-    break;
-  case '=':
-    addToken(match('=') ? token::TokenType::EQUAL_EQUAL
-                        : token::TokenType::EQUAL);
-    break;
-  case '<':
-    addToken(match('=') ? token::TokenType::LESS_EQUAL
-                        : token::TokenType::LESS);
-    break;
-  case '>':
-    addToken(match('=') ? token::TokenType::GREATER_EQUAL
-                        : token::TokenType::GREATER);
-    break;
-  case '/':
-    // lox doesn't consider comments as tokens so ignore it.
-    if (peek() == '/') {
-      while (peek() != '\n' && !isAtEnd())
-        advance();
-    } else {
-      addToken(token::TokenType::SLASH);
-    }
-    break;
-  // skip these characters
-  case ' ':
-  case '\r':
-  case '\t':
-    break;
-  case '\n':
-    m_line++;
-    break;
-  case '"':
-    string();
-    break;
-  default:
-    if (isDigit(c)) {
-      number();
-    } else if (isAlpha(c)) {
-      identifier();
-    } else {
-      cpplox::error::error(m_line, "Unexpected character.");
-    }
-    break;
+    // single character lexemes.
+    case '(':
+      addToken(token::TokenType::LEFT_PAREN);
+      break;
+    case ')':
+      addToken(token::TokenType::RIGHT_PAREN);
+      break;
+    case '{':
+      addToken(token::TokenType::LEFT_BRACE);
+      break;
+    case '}':
+      addToken(token::TokenType::RIGHT_BRACE);
+      break;
+    case ',':
+      addToken(token::TokenType::COMMA);
+      break;
+    case '.':
+      addToken(token::TokenType::DOT);
+      break;
+    case '-':
+      addToken(token::TokenType::MINUS);
+      break;
+    case '+':
+      addToken(token::TokenType::PLUS);
+      break;
+    case ';':
+      addToken(token::TokenType::SEMICOLON);
+      break;
+    case '*':
+      addToken(token::TokenType::STAR);
+      break;
+    // double character lexemes
+    case '!':
+      addToken(match('=') ? token::TokenType::BANG_EQUAL
+                          : token::TokenType::BANG);
+      break;
+    case '=':
+      addToken(match('=') ? token::TokenType::EQUAL_EQUAL
+                          : token::TokenType::EQUAL);
+      break;
+    case '<':
+      addToken(match('=') ? token::TokenType::LESS_EQUAL
+                          : token::TokenType::LESS);
+      break;
+    case '>':
+      addToken(match('=') ? token::TokenType::GREATER_EQUAL
+                          : token::TokenType::GREATER);
+      break;
+    case '/':
+      // lox doesn't consider comments as tokens so ignore it.
+      if (peek() == '/') {
+        while (peek() != '\n' && !isAtEnd()) advance();
+      } else {
+        addToken(token::TokenType::SLASH);
+      }
+      break;
+    // skip these characters
+    case ' ':
+    case '\r':
+    case '\t':
+      break;
+    case '\n':
+      m_line++;
+      break;
+    case '"':
+      string();
+      break;
+    default:
+      if (isDigit(c)) {
+        number();
+      } else if (isAlpha(c)) {
+        identifier();
+      } else {
+        cpplox::error::error(m_line, "Unexpected character.");
+      }
+      break;
   }
 }
 
 void Scanner::string() {
   while (peek() != '"' && !isAtEnd()) {
     // lox handles multi-line strings.
-    if (peek() == '\n')
-      m_line++;
+    if (peek() == '\n') m_line++;
     advance();
   }
 
@@ -129,15 +130,13 @@ void Scanner::string() {
 }
 
 void Scanner::number() {
-  while (isDigit(peek()))
-    advance();
+  while (isDigit(peek())) advance();
 
   if (peek() == '.' && isDigit(peekNext())) {
     // consume it
     advance();
 
-    while (isDigit(peek()))
-      advance();
+    while (isDigit(peek())) advance();
   }
 
   // note that (.123) or (123.) would result in an error "Unexpected character"
@@ -147,8 +146,7 @@ void Scanner::number() {
 }
 
 void Scanner::identifier() {
-  while (isAlphaNumeric(peek()))
-    advance();
+  while (isAlphaNumeric(peek())) advance();
 
   std::string identifierLexeme = m_source.substr(m_start, m_current - m_start);
   // check if this lexeme is a keyword
@@ -198,10 +196,8 @@ char Scanner::peekNext() {
 
 bool Scanner::match(char expected) {
   // make sure not to access out of bound
-  if (isAtEnd())
-    return false;
-  if (m_source[m_current] != expected)
-    return false;
+  if (isAtEnd()) return false;
+  if (m_source[m_current] != expected) return false;
   advance();
   return true;
 }
@@ -213,5 +209,5 @@ bool Scanner::isAlpha(char c) {
 }
 bool Scanner::isAlphaNumeric(char c) { return isDigit(c) || isAlpha(c); }
 
-} // namespace scanner
-} // namespace cpplox
+}  // namespace scanner
+}  // namespace cpplox

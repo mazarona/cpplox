@@ -8,7 +8,7 @@ namespace error {
 extern bool hadError;
 void error(int line, const std::string &message);
 
-} // namespace error
-} // namespace cpplox
+}  // namespace error
+}  // namespace cpplox
 
-#endif // ERROR_H
+#endif  // ERROR_H
