@@ -5,152 +5,150 @@
 namespace cpplox {
 namespace token {
 
-std::string toString(TokenType tokenType) {
-  std::string s;
-  switch (tokenType) {
+Token::Token(TokenType type, std::string lexeme, std::any literal, int line)
+    : m_tokenType{type}, m_lexeme{lexeme}, m_literal{literal}, m_line{line} {}
+
+std::string Token::toString() {
+
+  std::string tokenTypeString;
+  switch (m_tokenType) {
   case TokenType::LEFT_PAREN:
-    s = "LEFT_BRACE";
+    tokenTypeString = "LEFT_BRACE";
     break;
   case TokenType::RIGHT_PAREN:
-    s = "RIGHT_PAREN";
+    tokenTypeString = "RIGHT_PAREN";
     break;
   case TokenType::LEFT_BRACE:
-    s = "LEFT_BRACE";
+    tokenTypeString = "LEFT_BRACE";
     break;
   case TokenType::RIGHT_BRACE:
-    s = "RIGHT_BRACE";
+    tokenTypeString = "RIGHT_BRACE";
     break;
   case TokenType::COMMA:
-    s = "COMMA";
+    tokenTypeString = "COMMA";
     break;
   case TokenType::DOT:
-    s = "DOT";
+    tokenTypeString = "DOT";
     break;
   case TokenType::MINUS:
-    s = "MINUS";
+    tokenTypeString = "MINUS";
     break;
   case TokenType::PLUS:
-    s = "PLUS";
+    tokenTypeString = "PLUS";
     break;
   case TokenType::SEMICOLON:
-    s = "SEMICOLON";
+    tokenTypeString = "SEMICOLON";
     break;
   case TokenType::SLASH:
-    s = "SLASH";
+    tokenTypeString = "SLASH";
     break;
   case TokenType::STAR:
-    s = "STAR";
+    tokenTypeString = "STAR";
     break;
 
     // One or two character tokens.
   case TokenType::BANG:
-    s = "BANG";
+    tokenTypeString = "BANG";
     break;
   case TokenType::BANG_EQUAL:
-    s = "BANG_EQUAL";
+    tokenTypeString = "BANG_EQUAL";
     break;
   case TokenType::EQUAL:
-    s = "EQUAL";
+    tokenTypeString = "EQUAL";
     break;
   case TokenType::EQUAL_EQUAL:
-    s = "EQUAL_EQUAL";
+    tokenTypeString = "EQUAL_EQUAL";
     break;
   case TokenType::GREATER:
-    s = "GREATER";
+    tokenTypeString = "GREATER";
     break;
   case TokenType::GREATER_EQUAL:
-    s = "GREATER_EQUAL";
+    tokenTypeString = "GREATER_EQUAL";
     break;
   case TokenType::LESS:
-    s = "LESS";
+    tokenTypeString = "LESS";
     break;
   case TokenType::LESS_EQUAL:
-    s = "LESS_EQUAL";
+    tokenTypeString = "LESS_EQUAL";
     break;
 
     // Literals.
   case TokenType::IDENTIFIER:
-    s = "IDENTIFIER";
+    tokenTypeString = "IDENTIFIER";
     break;
   case TokenType::STRING:
-    s = "STRING";
+    tokenTypeString = "STRING";
     break;
   case TokenType::NUMBER:
-    s = "NUMBER";
+    tokenTypeString = "NUMBER";
     break;
 
     // Keywords.
   case TokenType::AND:
-    s = "AND";
+    tokenTypeString = "AND";
     break;
   case TokenType::CLASS:
-    s = "CLASS";
+    tokenTypeString = "CLASS";
     break;
   case TokenType::ELSE:
-    s = "ELSE";
+    tokenTypeString = "ELSE";
     break;
   case TokenType::FALSE:
-    s = "FALSE";
+    tokenTypeString = "FALSE";
     break;
   case TokenType::FUN:
-    s = "FUN";
+    tokenTypeString = "FUN";
     break;
   case TokenType::FOR:
-    s = "FOR";
+    tokenTypeString = "FOR";
     break;
   case TokenType::IF:
-    s = "IF";
+    tokenTypeString = "IF";
     break;
   case TokenType::NIL:
-    s = "NIL";
+    tokenTypeString = "NIL";
     break;
   case TokenType::OR:
-    s = "OR";
+    tokenTypeString = "OR";
     break;
   case TokenType::PRINT:
-    s = "PRINT";
+    tokenTypeString = "PRINT";
     break;
   case TokenType::RETURN:
-    s = "RETURN";
+    tokenTypeString = "RETURN";
     break;
   case TokenType::SUPER:
-    s = "SUPER";
+    tokenTypeString = "SUPER";
     break;
   case TokenType::THIS:
-    s = "THIS";
+    tokenTypeString = "THIS";
     break;
   case TokenType::TRUE:
-    s = "TRUE";
+    tokenTypeString = "TRUE";
     break;
   case TokenType::VAR:
-    s = "VAR";
+    tokenTypeString = "VAR";
     break;
   case TokenType::WHILE:
-    s = "WHILE";
+    tokenTypeString = "WHILE";
     break;
   case TokenType::END_OF_FILE:
-    s = "END_OF_FILE";
+    tokenTypeString = "END_OF_FILE";
     break;
   }
 
-  return s;
-}
-
-Token::Token(TokenType type, std::string lexeme, std::any literal, int line)
-    : tokenType{type}, lexeme{lexeme}, literal{literal}, line{line} {}
-
-std::string Token::toString() {
-
   std::string literal_string;
-  switch (tokenType) {
+  switch (m_tokenType) {
   case TokenType::IDENTIFIER:
-    literal_string = lexeme;
+    literal_string = m_lexeme;
+    break;
   case TokenType::STRING:
-    literal_string = std::any_cast<std::string>(literal);
+    literal_string = std::any_cast<std::string>(m_literal);
     break;
   case TokenType::NUMBER:
     // first cast the any object to a double then convert the double
-    literal_string = std::to_string(std::any_cast<double>(literal));
+    // all numbers in lox are floating-point numbers.
+    literal_string = std::to_string(std::any_cast<double>(m_literal));
     break;
   case TokenType::TRUE:
     literal_string = "true";
@@ -158,10 +156,11 @@ std::string Token::toString() {
   case TokenType::FALSE:
     literal_string = "false";
     break;
+  default:
+    literal_string = "nil";
   }
 
-  return cpplox::token::toString(tokenType) + " " + lexeme + " " +
-         literal_string;
+  return tokenTypeString + " " + m_lexeme + " " + literal_string;
 }
 
 } // namespace token

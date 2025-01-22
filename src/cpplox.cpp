@@ -34,7 +34,7 @@ void run(const std::string &source) {
 void runFile(const std::string &path) {
   std::string source = readFile(path);
   run(source);
-  if (hadError)
+  if (cpplox::error::hadError)
     std::exit(65);
 }
 
@@ -47,7 +47,7 @@ void runPrompt() {
     run(line);
     // don't exit if he mistypes when the interpreter runs
     // interactively
-    hadError = false;
+    cpplox::error::hadError = false;
   }
 }
 

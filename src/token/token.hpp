@@ -56,18 +56,21 @@ enum class TokenType {
   END_OF_FILE,
 };
 
-std::string toString(TokenType tokenType);
-
 class Token {
 public:
   Token(TokenType type, std::string lexeme, std::any literal, int line);
   std::string toString();
 
 private:
-  TokenType tokenType; // the type of the token according to lox.
-  std::string lexeme;  // the sequence of characters the represent the token.
-  std::any literal;    // the actual value of the lexeme (string, int ...)
-  int line;            // the line where the token is located.
+  // the type of the token according to lox.
+  TokenType m_tokenType;
+  // the sequence of characters that represent the token.
+  std::string m_lexeme;
+  // the actual value of the lexeme that will be used by the parser
+  // (IDENTIFIER, STRING, NUMBER)
+  std::any m_literal;
+  // the line where the token is located.
+  int m_line;
 };
 
 } // namespace token
