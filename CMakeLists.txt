@@ -29,4 +29,4 @@ target_compile_options(cpplox_compile_flags INTERFACE "$<${gcc}:$<BUILD_INTERFAC
 target_compile_options(cpplox_compile_flags INTERFACE "$<${msvc}:$<BUILD_INTERFACE:-W3>>")
 
 # add the src subdirectory
-add_subdirectory(src)
+add_subdirectory(cpplox)
