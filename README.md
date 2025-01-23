@@ -2,7 +2,7 @@
 `cpplox` is a tree-walking interpreter of the lox programming language.
 
 # Build
-The build uses cmake and make and produces a binary `cpplox` in `build/src` folder
+The build uses cmake and make. It produces a binary `cpplox` in `build/cpplox` directory.
 
 ```bash
 $ git clone https://github.com/mazarona/cpplox.git
