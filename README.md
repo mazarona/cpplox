@@ -5,7 +5,8 @@
 The build uses cmake and make and produces a binary `cpplox` in `build/src` folder
 
 ```bash
-$ mkdir build
+$ git clone https://github.com/mazarona/cpplox.git
+$ cd cpplox
 $ cmake -S . -B build
 $ cmake --build build
 ```
